@@ -112,6 +112,10 @@
         $('#send').click(function () {
             sendMessage()
         })
+
+        $('#send-private').click(function () {
+            sendPrivateMessage()
+        })
     })
 
     function connect() {
@@ -135,12 +139,23 @@
                     console.error("Invalid progress value received from backend:", message.body);
                 }
             });
+
+            // subscribe to the private message channel
+            stompClient.subscribe('/user/topic/private-messages', function (message) {
+                console.log(JSON.parse(message.body));
+                $('#messages').append('<tr><td>' + JSON.parse(message.body).content + '</td></tr>')
+            });
         });
     }
 
     function sendMessage() {
         console.log('Sending message!')
         stompClient.send("/ws/message", {}, JSON.stringify({'content': $('#message').val()}));
+    }
+
+    function sendPrivateMessage() {
+        console.log('Sending private message!')
+        stompClient.send("/ws/private-message", {}, JSON.stringify({'content': $('#private-message').val()}));
     }
 
     function updateProgress(percentage) {

@@ -27,4 +27,9 @@ public class WebSocketController {
     public void sendProgress() throws InterruptedException {
         webSocketService.sendProgress();
     }
+
+    @GetMapping("/messages/private-message/{userId}/{message}")
+    public void sendPrivateMessage(@PathVariable String userId, @PathVariable String message) {
+        webSocketService.sendPrivateMessage(userId, message);
+    }
 }

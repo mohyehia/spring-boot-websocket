@@ -31,4 +31,8 @@ public class WebSocketService {
             System.out.println("Progress sent");
         }
     }
+
+    public void sendPrivateMessage(String userId, String message) {
+        simpMessagingTemplate.convertAndSendToUser(userId, "/topic/private-messages", new ResponseMessage(message));
+    }
 }
